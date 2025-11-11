@@ -7,8 +7,6 @@ type FilmCardProps = {
 };
 
 const FilmCard = ({ movie }: FilmCardProps) => {
-<<<<<<< HEAD
-=======
   const createdAtDate = movie.createdAt ? new Date(movie.createdAt) : null;
   const isValidCreatedAt = createdAtDate && !Number.isNaN(createdAtDate.getTime());
 
@@ -30,31 +28,20 @@ const FilmCard = ({ movie }: FilmCardProps) => {
       }).format(createdAtDate!)
     : null;
 
->>>>>>> 81156c2 (1 er modification)
   return (
     <article className={styles.card}>
       <div className={styles.poster}>
         <img src={movie.posterUrl} alt={`Affiche de ${movie.title}`} />
         <span className={styles.year}>{movie.year}</span>
-<<<<<<< HEAD
-=======
         {isNew && <span className={styles.newBadge}>Nouveau</span>}
->>>>>>> 81156c2 (1 er modification)
       </div>
       <div className={styles.content}>
         <h3>{movie.title}</h3>
         <p className={styles.genre}>{movie.genre}</p>
-<<<<<<< HEAD
-        <p className={styles.synopsis}>{movie.synopsis}</p>
-        <div className={styles.meta}>
-          <span>{movie.duration} min</span>
-          <span>{movie.cast}</span>
-=======
         <div className={styles.meta}>
           <span>{movie.duration} min</span>
           <span>{movie.cast}</span>
           {formattedCreatedAt && <span className={styles.createdAt}>Ajouté le {formattedCreatedAt}</span>}
->>>>>>> 81156c2 (1 er modification)
         </div>
         <div className={styles.actions}>
           <Link to={`/movies/${movie.id}`} className={styles.link}>

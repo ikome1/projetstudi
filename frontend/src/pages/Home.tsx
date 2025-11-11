@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import FilmCard from '@components/FilmCard';
-import { movieService } from '@services/api';
-import { Movie } from '@types/Movie';
-
-import styles from './Home.module.css';
-
-type Filters = {
-  search: string;
-  genre: string;
-  sortBy: string;
-};
-
-const Home = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<Filters>({
-    search: '',
-    genre: '',
-    sortBy: 'year_desc'
-  });
-
-  useEffect(() => {
-    const controller = new AbortController();
-=======
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FilmCard from '@components/FilmCard';
@@ -42,19 +15,12 @@ const Home = () => {
   const [highlightError, setHighlightError] = useState<string | null>(null);
 
   useEffect(() => {
->>>>>>> 81156c2 (1 er modification)
     async function loadMovies() {
       try {
         setLoading(true);
         const data = await movieService.list({
-<<<<<<< HEAD
-          search: filters.search || undefined,
-          genre: filters.genre || undefined,
-          sortBy: filters.sortBy || undefined
-=======
           sortBy: 'created_desc',
           limit: 3
->>>>>>> 81156c2 (1 er modification)
         });
         setMovies(data);
       } catch (err) {
@@ -65,18 +31,6 @@ const Home = () => {
       }
     }
     loadMovies();
-<<<<<<< HEAD
-    return () => controller.abort();
-  }, [filters]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
-  };
-
-  return (
-    <div className="container">
-=======
   }, []);
 
   useEffect(() => {
@@ -148,12 +102,7 @@ const Home = () => {
                   Voir le détail
                 </Link>
                 {todayHighlight.trailerUrl && (
-                  <a
-                    href={todayHighlight.trailerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.ctaSecondary}
-                  >
+                  <a href={todayHighlight.trailerUrl} target="_blank" rel="noopener noreferrer" className={styles.ctaSecondary}>
                     Bande-annonce
                   </a>
                 )}
@@ -167,36 +116,12 @@ const Home = () => {
         )}
       </section>
 
->>>>>>> 81156c2 (1 er modification)
       <section className={styles.hero}>
         <div>
           <h1>Découvrez, notez et partagez vos films favoris</h1>
           <p>
             Cinéma Nova vous propose une sélection de films soigneusement choisis. Explorez les genres, regardez les bandes-annonces et créez votre liste personnelle.
           </p>
-<<<<<<< HEAD
-        </div>
-        <div className={styles.searchBox}>
-          <input
-            name="search"
-            value={filters.search}
-            onChange={handleChange}
-            placeholder="Rechercher un film..."
-          />
-          <div className={styles.filters}>
-            <select name="genre" value={filters.genre} onChange={handleChange}>
-              <option value="">Tous les genres</option>
-              <option value="Thriller">Thriller</option>
-              <option value="Science-Fiction">Science-Fiction</option>
-              <option value="Drame">Drame</option>
-            </select>
-            <select name="sortBy" value={filters.sortBy} onChange={handleChange}>
-              <option value="year_desc">Plus récents</option>
-              <option value="year_asc">Plus anciens</option>
-              <option value="title_asc">Titre A-Z</option>
-              <option value="title_desc">Titre Z-A</option>
-            </select>
-=======
           <div className={styles.heroActions}>
             <Link to="/movies" className={styles.cta}>
               Voir tous les films
@@ -204,20 +129,15 @@ const Home = () => {
             <a href="#nouveautes" className={styles.ctaSecondary}>
               Dernières nouveautés
             </a>
->>>>>>> 81156c2 (1 er modification)
           </div>
         </div>
       </section>
 
-<<<<<<< HEAD
-      <section className={styles.listSection}>
-=======
       <section id="nouveautes" className={styles.listSection}>
         <header className={styles.sectionHeader}>
           <h2>Derniers ajouts</h2>
           <Link to="/movies">Parcourir tout le catalogue</Link>
         </header>
->>>>>>> 81156c2 (1 er modification)
         {loading && <p>Chargement des films...</p>}
         {error && <p className={styles.error}>{error}</p>}
         {!loading && !error && (
@@ -225,11 +145,7 @@ const Home = () => {
             {movies.map((movie) => (
               <FilmCard key={movie.id} movie={movie} />
             ))}
-<<<<<<< HEAD
-            {movies.length === 0 && <p>Aucun film ne correspond à vos critères.</p>}
-=======
             {movies.length === 0 && <p>Aucun film n’a été ajouté récemment.</p>}
->>>>>>> 81156c2 (1 er modification)
           </div>
         )}
       </section>

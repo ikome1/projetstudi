@@ -50,10 +50,7 @@ npm install
    - `APP_URL` : URL publique de l’API (ex. `http://localhost:4000`) — utilisée pour retourner l’URL complète des affiches uploadées
 
 - **Téléversement d’affiche** : depuis le dashboard admin, vous pouvez importer un fichier (PNG/JPG/WebP, 5 Mo max). Le fichier est stocké dans `backend/uploads` et servi via `http://localhost:4000/uploads/...`.
-<<<<<<< HEAD
-=======
 - **Réservations & programmation** : la base SQLite contient aussi les tables `daily_schedule` (film du jour) et `reservations` (50 places numérotées). Elles sont créées automatiquement au premier lancement.
->>>>>>> 81156c2 (1 er modification)
 
 ---
 
@@ -75,18 +72,15 @@ npm run dev
 
 Accéder ensuite au front sur `http://localhost:5173` (Vite) et à l’API sur `http://localhost:4000`.
 
-<<<<<<< HEAD
-=======
 Routes clés côté front :
 
 - `/` : accueil + film “À la une” (programmation du jour).
 - `/movies` : catalogue complet (pagination 12 films / page).
 - `/movies/:id` : fiche film.
-- `/reservation` : réservation de places (simulation de paiement).
-- `/contact` : informations service client.
-- `/admin/login` et `/admin` : espace administrateur (garde visible uniquement pour les admins connectés).
+- `/reservation` : réservation de places (simulation de paiement, code à conserver).
+- `/contact` : informations service client / annulation.
+- `/admin/login` et `/admin` : espace administrateur (liens visibles uniquement après connexion).
 
->>>>>>> 81156c2 (1 er modification)
 ---
 
 ## 6. Identifiants de démonstration
@@ -107,19 +101,12 @@ Modifiez ces identifiants dans la base si nécessaire.
 | backend | `npm run dev` | API avec hot reload (nodemon) |
 | backend | `npm start` | API en mode production |
 | backend | `npm run lint` | Vérifie la qualité du code |
-<<<<<<< HEAD
-=======
-| backend | `npm run reset:reservations`* | (Optionnel) script custom à créer pour purger les réservations |
->>>>>>> 81156c2 (1 er modification)
 | frontend | `npm run dev` | Front avec Vite |
 | frontend | `npm run build` | Build de production |
 | frontend | `npm run preview` | Prévisualiser le build |
 
-<<<<<<< HEAD
-=======
-> *Aucun script n’est fourni par défaut pour réinitialiser les réservations. Pour libérer toutes les places sans passer par le dashboard, vous pouvez lancer `npm run node scripts/resetReservations.js` après avoir créé un petit script Express/Node qui appelle `DELETE FROM reservations`. Le tableau “Réservations de places” dans le dashboard offre déjà un bouton “Réinitialiser” accessible aux admins.
+> Pour libérer toutes les places depuis la ligne de commande, vous pouvez créer un petit script Node qui appelle l’endpoint `/api/admin/reservations/reset`. Le dashboard admin propose déjà un bouton “Réinitialiser toutes les réservations”.
 
->>>>>>> 81156c2 (1 er modification)
 ---
 
 ## 8. Déploiement rapide (optionnel)
@@ -147,13 +134,10 @@ Servir ensuite le front buildé avec un serveur statique (Nginx, Apache, Vercel,
 - **Erreur `SQLITE_BUSY`** : fermer les processus bloquants et redémarrer l’API.
 - **Erreur CORS** : vérifier que le front appelle l’API via `/api` (proxy Vite déjà configuré).
 - **Token invalide** : se reconnecter depuis `/admin/login`.
-<<<<<<< HEAD
-=======
-- **Place indisponible** : si une réservation échoue car la place vient d’être prise, rafraîchir la page `Réservation` ou utiliser l’espace admin pour annuler une place.
-- **Reset complet** : pour partir d’une base vide (films + réservations), supprimez `backend/database/cinema.db` puis relancez l’API ; l’initialisation recréera la base et les données de démonstration.
->>>>>>> 81156c2 (1 er modification)
+- **Place indisponible** : si une réservation échoue car la place vient d’être prise, rafraîchir la page `Réservation` ou utiliser l’espace admin pour annuler la place.
+- **Reset complet** : pour repartir d’une base vierge, supprimez `backend/database/cinema.db` puis redémarrez l’API ; les tables et le seed seront recréés automatiquement.
 
 ---
 
-Vous êtes prêt à utiliser le site ! Consultez `docs/presentation.md` pour la description fonctionnelle et l’architecture. 
+Vous êtes prêt à utiliser le site ! Consultez `docs/presentation.md` pour la description fonctionnelle et l’architecture détaillée. 
 
