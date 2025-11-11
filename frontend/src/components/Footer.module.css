@@ -1,0 +1,25 @@
+.footer {
+  margin-top: 4rem;
+  padding: 3rem 0 2rem;
+  background: rgba(15, 23, 42, 0.8);
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.wrapper {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.wrapper h3 {
+  margin-top: 0;
+  color: #fbbf24;
+}
+
+.bottom {
+  text-align: center;
+  margin-top: 2rem;
+  color: rgba(226, 232, 240, 0.6);
+  font-size: 0.9rem;
+}
+

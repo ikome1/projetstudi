@@ -1,0 +1,26 @@
+# Node / front-end
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Build artifacts
+backend/node_modules/
+backend/dist/
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Environment
+.env
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+backend/logs/
+
+# Editor
+.DS_Store
+.idea/
+.vscode/
+
+

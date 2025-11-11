@@ -1,0 +1,97 @@
+.header {
+  padding: 3rem 0 1rem;
+}
+
+.section {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 24px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.45);
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.sectionTitle span {
+  color: rgba(226, 232, 240, 0.6);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+thead {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.actions button:hover {
+  background: rgba(59, 130, 246, 0.35);
+}
+
+.danger {
+  background: rgba(248, 113, 113, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+.danger:hover {
+  background: rgba(248, 113, 113, 0.35) !important;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: rgba(226, 232, 240, 0.8);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+}
+
+.error {
+  color: #f87171;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 1.5rem;
+  }
+
+  .sectionTitle {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

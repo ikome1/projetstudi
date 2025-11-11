@@ -1,0 +1,62 @@
+.hero {
+  display: grid;
+  gap: 2rem;
+  padding: 4rem 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  color: rgba(226, 232, 240, 0.75);
+  line-height: 1.7;
+}
+
+.searchBox {
+  background: rgba(30, 41, 59, 0.75);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  display: grid;
+  gap: 1rem;
+}
+
+.searchBox input {
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f8fafc;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.filters select {
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f8fafc;
+}
+
+.listSection {
+  padding: 2rem 0 4rem;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.error {
+  color: #f87171;
+}
+
