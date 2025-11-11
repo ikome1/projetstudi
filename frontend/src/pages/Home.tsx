@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import FilmCard from '@components/FilmCard';
 import { movieService } from '@services/api';
@@ -23,13 +24,37 @@ const Home = () => {
 
   useEffect(() => {
     const controller = new AbortController();
+=======
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import FilmCard from '@components/FilmCard';
+import { movieService } from '@services/api';
+import { Movie, MovieHighlight } from '@types/Movie';
+
+import styles from './Home.module.css';
+
+const Home = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [todayHighlight, setTodayHighlight] = useState<MovieHighlight | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [highlightLoading, setHighlightLoading] = useState(true);
+  const [highlightError, setHighlightError] = useState<string | null>(null);
+
+  useEffect(() => {
+>>>>>>> 81156c2 (1 er modification)
     async function loadMovies() {
       try {
         setLoading(true);
         const data = await movieService.list({
+<<<<<<< HEAD
           search: filters.search || undefined,
           genre: filters.genre || undefined,
           sortBy: filters.sortBy || undefined
+=======
+          sortBy: 'created_desc',
+          limit: 3
+>>>>>>> 81156c2 (1 er modification)
         });
         setMovies(data);
       } catch (err) {
@@ -40,6 +65,7 @@ const Home = () => {
       }
     }
     loadMovies();
+<<<<<<< HEAD
     return () => controller.abort();
   }, [filters]);
 
@@ -50,12 +76,105 @@ const Home = () => {
 
   return (
     <div className="container">
+=======
+  }, []);
+
+  useEffect(() => {
+    async function loadHighlight() {
+      try {
+        setHighlightLoading(true);
+        const data = await movieService.getTodayHighlight();
+        setTodayHighlight(data);
+        setHighlightError(null);
+      } catch (err) {
+        console.error(err);
+        setHighlightError('Impossible de charger la programmation du jour.');
+      } finally {
+        setHighlightLoading(false);
+      }
+    }
+    loadHighlight();
+  }, []);
+
+  const highlightDateLabel = useMemo(() => {
+    const dateToFormat = todayHighlight?.scheduleDate ?? new Date().toISOString().slice(0, 10);
+    return new Intl.DateTimeFormat('fr-FR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(dateToFormat));
+  }, [todayHighlight]);
+
+  const highlightTimeLabel = useMemo(() => {
+    if (!todayHighlight?.scheduleTime) {
+      return null;
+    }
+    const [hour, minute] = todayHighlight.scheduleTime.split(':');
+    if (hour == null || minute == null) {
+      return todayHighlight.scheduleTime;
+    }
+    return `${hour}h${minute}`;
+  }, [todayHighlight]);
+
+  return (
+    <div className="container">
+      <section className={styles.feature}>
+        {highlightLoading ? (
+          <div className={styles.featurePlaceholder}>
+            <p>Chargement de la programmation...</p>
+          </div>
+        ) : highlightError ? (
+          <div className={styles.featurePlaceholder}>
+            <p className={styles.error}>{highlightError}</p>
+          </div>
+        ) : todayHighlight ? (
+          <>
+            <img
+              src={todayHighlight.posterUrl}
+              alt={`Affiche de ${todayHighlight.title}`}
+              className={styles.featureImage}
+            />
+            <div className={styles.featureOverlay} />
+            <div className={styles.featureContent}>
+              <span className={styles.featureLabel}>À la une — {highlightDateLabel}</span>
+              <h2>{todayHighlight.title}</h2>
+              <p className={styles.featureMeta}>
+                {todayHighlight.genre} · {todayHighlight.year} ·{' '}
+                {highlightTimeLabel ? `Début ${highlightTimeLabel}` : 'Horaire communiqué bientôt'}
+              </p>
+              <div className={styles.featureActions}>
+                <Link to={`/movies/${todayHighlight.id}`} className={styles.cta}>
+                  Voir le détail
+                </Link>
+                {todayHighlight.trailerUrl && (
+                  <a
+                    href={todayHighlight.trailerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.ctaSecondary}
+                  >
+                    Bande-annonce
+                  </a>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className={styles.featurePlaceholder}>
+            <p>La programmation du jour sera annoncée prochainement.</p>
+          </div>
+        )}
+      </section>
+
+>>>>>>> 81156c2 (1 er modification)
       <section className={styles.hero}>
         <div>
           <h1>Découvrez, notez et partagez vos films favoris</h1>
           <p>
             Cinéma Nova vous propose une sélection de films soigneusement choisis. Explorez les genres, regardez les bandes-annonces et créez votre liste personnelle.
           </p>
+<<<<<<< HEAD
         </div>
         <div className={styles.searchBox}>
           <input
@@ -77,11 +196,28 @@ const Home = () => {
               <option value="title_asc">Titre A-Z</option>
               <option value="title_desc">Titre Z-A</option>
             </select>
+=======
+          <div className={styles.heroActions}>
+            <Link to="/movies" className={styles.cta}>
+              Voir tous les films
+            </Link>
+            <a href="#nouveautes" className={styles.ctaSecondary}>
+              Dernières nouveautés
+            </a>
+>>>>>>> 81156c2 (1 er modification)
           </div>
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className={styles.listSection}>
+=======
+      <section id="nouveautes" className={styles.listSection}>
+        <header className={styles.sectionHeader}>
+          <h2>Derniers ajouts</h2>
+          <Link to="/movies">Parcourir tout le catalogue</Link>
+        </header>
+>>>>>>> 81156c2 (1 er modification)
         {loading && <p>Chargement des films...</p>}
         {error && <p className={styles.error}>{error}</p>}
         {!loading && !error && (
@@ -89,7 +225,11 @@ const Home = () => {
             {movies.map((movie) => (
               <FilmCard key={movie.id} movie={movie} />
             ))}
+<<<<<<< HEAD
             {movies.length === 0 && <p>Aucun film ne correspond à vos critères.</p>}
+=======
+            {movies.length === 0 && <p>Aucun film n’a été ajouté récemment.</p>}
+>>>>>>> 81156c2 (1 er modification)
           </div>
         )}
       </section>

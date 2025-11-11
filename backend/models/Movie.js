@@ -1,19 +1,25 @@
 import { all, get, run } from '../database/db.js';
 
-export async function findAll({ search, genre, sortBy } = {}) {
+// Fonctions d’accès aux données pour la ressource `movies`.
+// Encapsulent les requêtes SQLite afin de garder les contrôleurs simples.
+
+export async function findAll({ search, genre, sortBy, limit } = {}) {
   let query = 'SELECT * FROM movies';
   const clauses = [];
   const params = [];
 
-  if (search) {
-    clauses.push('(LOWER(title) LIKE ? OR LOWER(genre) LIKE ?)');
-    const s = `%${search.toLowerCase()}%`;
-    params.push(s, s);
+  const normalizedSearch = search?.trim();
+  if (normalizedSearch) {
+    const pattern = `%${normalizedSearch}%`;
+    // Recherche insensible à la casse sur le titre ou le genre.
+    clauses.push('(title LIKE ? COLLATE NOCASE OR genre LIKE ? COLLATE NOCASE)');
+    params.push(pattern, pattern);
   }
 
-  if (genre) {
-    clauses.push('LOWER(genre) = ?');
-    params.push(genre.toLowerCase());
+  const normalizedGenre = genre?.trim();
+  if (normalizedGenre) {
+    clauses.push('genre = ? COLLATE NOCASE');
+    params.push(normalizedGenre);
   }
 
   if (clauses.length > 0) {
@@ -21,6 +27,12 @@ export async function findAll({ search, genre, sortBy } = {}) {
   }
 
   switch (sortBy) {
+    case 'created_desc':
+      query += ' ORDER BY createdAt DESC';
+      break;
+    case 'created_asc':
+      query += ' ORDER BY createdAt ASC';
+      break;
     case 'year_desc':
       query += ' ORDER BY year DESC';
       break;
@@ -38,14 +50,22 @@ export async function findAll({ search, genre, sortBy } = {}) {
       break;
   }
 
+  if (typeof limit === 'number' && Number.isInteger(limit) && limit > 0) {
+    query += ' LIMIT ?';
+    params.push(limit);
+  }
+
   return all(query, params);
 }
 
 export function findById(id) {
+  // Retourne un film unique ou `undefined` si aucun résultat.
   return get('SELECT * FROM movies WHERE id = ?', [id]);
 }
 
 export async function create(movie) {
+  // Insertion d’un nouveau film. Certaines colonnes sont optionnelles côté formulaire,
+  // on les remplace donc par des valeurs neutres (chaîne vide ou NULL).
   const result = await run(
     `INSERT INTO movies (title, synopsis, genre, duration, year, cast, trailerUrl, posterUrl)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -64,6 +84,7 @@ export async function create(movie) {
 }
 
 export async function update(id, movie) {
+  // Mise à jour complète des champs d’un film existant, avec horodatage automatique.
   await run(
     `UPDATE movies SET
       title = ?,
@@ -92,6 +113,7 @@ export async function update(id, movie) {
 }
 
 export function remove(id) {
+  // Suppression définitive du film en base.
   return run('DELETE FROM movies WHERE id = ?', [id]);
 }
 

@@ -3,6 +3,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
 
+// Ce module encapsule toute la configuration SQLite :
+// - ouverture de la connexion
+// - helpers `run`, `get`, `all` pour retourner des promesses
+// - création des tables et seed initial (films + compte admin)
+// Toute la logique métier consomme ensuite ces helpers via les modèles.
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -62,6 +68,7 @@ export function all(query, params = []) {
 }
 
 export async function initializeDatabase() {
+  // Création des tables nécessaires si elles n’existent pas encore.
   await run(`CREATE TABLE IF NOT EXISTS movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -96,6 +103,33 @@ export async function initializeDatabase() {
     FOREIGN KEY (movieId) REFERENCES movies(id) ON DELETE CASCADE
   )`);
 
+  await run(`CREATE TABLE IF NOT EXISTS reservations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    seatNumber INTEGER NOT NULL UNIQUE,
+    reservationCode TEXT NOT NULL UNIQUE,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+  await run(`CREATE TABLE IF NOT EXISTS daily_schedule (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL UNIQUE,
+    movieId INTEGER NOT NULL,
+    startTime TEXT,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (movieId) REFERENCES movies(id) ON DELETE CASCADE
+  )`);
+
+  try {
+    // Migration douce : on tente d’ajouter la colonne (si déjà présente, on ignore l’erreur).
+    await run('ALTER TABLE daily_schedule ADD COLUMN startTime TEXT');
+  } catch (error) {
+    if (!String(error?.message).includes('duplicate column name')) {
+      throw error;
+    }
+  }
+
+  // Seed du compte administrateur par défaut.
   const admin = await get('SELECT id FROM users WHERE email = ?', ['admin@cinema.app']);
   if (!admin) {
     const hashed = await bcrypt.hash('Admin123!', 10);
@@ -108,11 +142,13 @@ export async function initializeDatabase() {
 
   const movieCount = await get('SELECT COUNT(*) as total FROM movies');
   if (!movieCount || movieCount.total === 0) {
+    // Remplit la base avec trois films de démonstration pour donner du contenu initial.
     await seedMovies();
   }
 }
 
 async function seedMovies() {
+  // Jeux d’échantillon pour que l’interface publique affiche des films lors du premier lancement.
   const samples = [
     {
       title: 'Les Échos de la Nuit',

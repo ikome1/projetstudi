@@ -9,7 +9,17 @@ import {
   updateRole,
   removeUser
 } from '../controllers/adminController.js';
+<<<<<<< HEAD
 import { uploadPoster } from '../controllers/uploadController.js';
+=======
+import { setTodayHighlight } from '../controllers/movieController.js';
+import { uploadPoster } from '../controllers/uploadController.js';
+import {
+  listReservations as listAllReservations,
+  cancelReservation,
+  resetReservations
+} from '../controllers/reservationController.js';
+>>>>>>> 81156c2 (1 er modification)
 
 const router = Router();
 
@@ -19,6 +29,13 @@ router.get('/users', getUsers);
 router.post('/users', createAdminUser);
 router.patch('/users/:id/role', updateRole);
 router.delete('/users/:id', removeUser);
+<<<<<<< HEAD
+=======
+router.post('/schedule/today', setTodayHighlight);
+router.get('/reservations', listAllReservations);
+router.delete('/reservations/:seatNumber', cancelReservation);
+router.post('/reservations/reset', resetReservations);
+>>>>>>> 81156c2 (1 er modification)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

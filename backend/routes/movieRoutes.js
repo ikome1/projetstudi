@@ -5,11 +5,20 @@ import {
   getMovie,
   createMovie,
   updateMovie,
+<<<<<<< HEAD
   deleteMovie
+=======
+  deleteMovie,
+  getTodayHighlight
+>>>>>>> 81156c2 (1 er modification)
 } from '../controllers/movieController.js';
 
 const router = Router();
 
+<<<<<<< HEAD
+=======
+router.get('/highlight/today', getTodayHighlight);
+>>>>>>> 81156c2 (1 er modification)
 router.get('/', listMovies);
 router.get('/:id', getMovie);
 

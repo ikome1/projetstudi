@@ -36,6 +36,22 @@
   font-size: 0.85rem;
 }
 
+<<<<<<< HEAD
+=======
+.newBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #f97316;
+  color: #0f172a;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
+}
+
+>>>>>>> 81156c2 (1 er modification)
 .content h3 {
   margin: 0;
 }
@@ -45,6 +61,7 @@
   margin: 0.25rem 0 0.5rem;
 }
 
+<<<<<<< HEAD
 .synopsis {
   color: rgba(226, 232, 240, 0.75);
   margin-bottom: 1rem;
@@ -55,11 +72,24 @@
 .meta {
   display: flex;
   gap: 1rem;
+=======
+.meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+>>>>>>> 81156c2 (1 er modification)
   font-size: 0.85rem;
   color: rgba(226, 232, 240, 0.6);
   margin-bottom: 1rem;
 }
 
+<<<<<<< HEAD
+=======
+.createdAt {
+  font-style: italic;
+}
+
+>>>>>>> 81156c2 (1 er modification)
 .actions {
   display: flex;
   gap: 1rem;

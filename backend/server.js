@@ -8,6 +8,10 @@ import { fileURLToPath } from 'url';
 import movieRoutes from './routes/movieRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+<<<<<<< HEAD
+=======
+import reservationRoutes from './routes/reservationRoutes.js';
+>>>>>>> 81156c2 (1 er modification)
 import { initializeDatabase } from './database/db.js';
 
 dotenv.config();
@@ -30,6 +34,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/movies', movieRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+<<<<<<< HEAD
+=======
+app.use('/api/reservations', reservationRoutes);
+>>>>>>> 81156c2 (1 er modification)
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route introuvable.' });
